@@ -5,9 +5,12 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public class BasicEnemy extends GameObject{
+	
+	private Handler handler;
 
-	public BasicEnemy(int x, int y, ID id) {
+	public BasicEnemy(int x, int y, ID id, Handler handler) {
 		super(x, y, id);
+		this.handler = handler;
 		int sign = Game.r.nextInt(2);
 		if (sign == 0) 
 			velX = -5;
@@ -24,8 +27,10 @@ public class BasicEnemy extends GameObject{
 		x += velX;
 		y += velY;
 		
-		if (y <= 0 || y >= Game.HEIGHT) velY *= -1;
-		if (x <= 0 || x >= Game.WIDTH) velX *= -1;
+		if (y <= 0 || y >= Game.HEIGHT - 16) velY *= -1;
+		if (x <= 0 || x >= Game.WIDTH - 16) velX *= -1;
+		
+		handler.addObject(new Trail(x, y, 16, 16, 0.03f, ID.Trail, Color.red, handler));
 	}
 
 	@Override
